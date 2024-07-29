@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-.input{
+.input,.stats,.select{
     background-color: #fff;
+}
+.stat-title{
+    color:#000;
 }
