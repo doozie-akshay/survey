@@ -26,7 +26,7 @@ class UpdateSurveyRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:500'],
             'image' => ['nullable', 'string'],
-            'user_id' => ['exists:users,id'],
+            'user_id' => ['exists:user,id'],
             'status' => ['required', 'boolean'],
             'description' => ['nullable', 'string'],
             'expire_date' => ['nullable', 'date', 'after:today'],
