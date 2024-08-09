@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Survey;
 use App\Models\SurveyAnswer;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -79,8 +79,12 @@ class DashboardController extends Controller
     {
         return SurveyAnswer::join('surveys', 'survey_answers.survey_id', '=', 'surveys.id')
             ->where('surveys.user_id', $userId)
-            ->where('survey_answers.end_date', '>', 'survey_answers.start_date')
+            ->whereRaw('survey_answers.end_date > survey_answers.start_date')
             ->get();
+        // return SurveyAnswer::join('surveys', 'survey_answers.survey_id', '=', 'surveys.id')
+        //     ->where('surveys.user_id', $userId)
+        //     ->where('survey_answers.end_date', '>', 'survey_answers.start_date')
+        //     ->get();
     }
 
     /*
