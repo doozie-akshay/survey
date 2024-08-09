@@ -41,7 +41,7 @@ export const PublicQuestionComponent = ({question, onAnswerChange}) => {
           <div className='my-2'>
             {question.data.options.map((option, index) => (
               <div key={option.uuid}>
-                <input id={option.uuid} name={'question-' + option.id} type='radio' value={option.uuid} className='mr-2'
+                <input id={option.uuid} name={'question-' + option.uuid} type='radio' value={option.uuid} className='mr-2'
                        onChange={(event) => onAnswerChange(option)}/>
                 <label htmlFor={option.uuid}>
                   {option.text}
@@ -54,7 +54,7 @@ export const PublicQuestionComponent = ({question, onAnswerChange}) => {
           <div className='my-2'>
             {question.data.options.map((option, index) => (
               <div key={option.uuid}>
-                <input id={option.uuid} name={'question-' + option.id} type='checkbox' value={option.uuid}
+                <input id={option.uuid} name={'question-' + option.uuid} type='checkbox' value={option.uuid}
                        className='mr-2'
                        onChange={(event) => onCheckboxChange(event, option)}/>
                 <label htmlFor={option.uuid}>
