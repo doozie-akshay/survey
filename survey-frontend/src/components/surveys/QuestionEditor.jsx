@@ -1,13 +1,13 @@
-import {useEffect, useState} from "react";
-import {useStateContext} from "../../contexts/ContextProvider.jsx";
-import {v4 as uuid} from 'uuid';
+import { useEffect, useState } from "react";
+import { useStateContext } from "../../contexts/ContextProvider.jsx";
+import { v4 as uuid } from 'uuid';
 import CustomButton from "../core/CustomButton.jsx";
-import {FiPlusCircle, FiTrash} from "react-icons/fi";
-import {BiPlus} from "react-icons/bi";
+import { FiPlusCircle, FiTrash } from "react-icons/fi";
+import { BiPlus } from "react-icons/bi";
 
-export default function QuestionEditor({index = 0, question, deleteQuestion, questionChange, addQuestion}) {
-  const [model, setModel] = useState({...question});
-  const {questionTypes} = useStateContext();
+export default function QuestionEditor({ index = 0, question, deleteQuestion, questionChange, addQuestion }) {
+  const [model, setModel] = useState({ ...question });
+  const { questionTypes } = useStateContext();
 
   // trigger questionChange method whenever the question model changed
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function QuestionEditor({index = 0, question, deleteQuestion, que
   const onTypeChange = (event) => {
     // TODO: should empty option if the selected type does not need them
     // create a variable to store question
-    const question = {...model, type: event.target.value}
+    const question = { ...model, type: event.target.value }
     // add option if needed
     if (shouldHaveOptions(question.type)) {
       question.data = {
@@ -36,9 +36,9 @@ export default function QuestionEditor({index = 0, question, deleteQuestion, que
       index = model.data.options.length ? model.data.options.length + 1 : 0;
     }
     // add question in the next index
-    model.data.options.splice(index, 0, {uuid: uuid(), text: ''})
-    setModel({...model})
-    debugger
+    model.data.options.splice(index, 0, { uuid: uuid(), text: '' })
+    setModel({ ...model })
+    // debugger
   }
 
   const onOptionChange = (event, optionId) => {
@@ -49,12 +49,12 @@ export default function QuestionEditor({index = 0, question, deleteQuestion, que
       }
       return option
     })
-    setModel({...model})
+    setModel({ ...model })
   }
 
   const deleteOption = (uuid) => {
     model.data.options = model.data.options.filter((option) => option.uuid !== uuid)
-    setModel({...model})
+    setModel({ ...model })
   }
   // check if the question should display options
   const shouldHaveOptions = (type = null) => {
@@ -83,12 +83,12 @@ export default function QuestionEditor({index = 0, question, deleteQuestion, que
         </h4>
         <div className='flex items-center justify-between gap-4'>
           <CustomButton type='button' circle
-                        handleClick={() => addQuestion(index + 1)}>
-            <BiPlus className='w-4 mr-2'/> Add Question
+            handleClick={() => addQuestion(index + 1)}>
+            <BiPlus className='w-4 mr-2' /> Add Question
           </CustomButton>
           <CustomButton type='button' circle color='red'
-                        handleClick={() => deleteQuestion(question)}>
-            <FiTrash className='w-5 h-5 mr-2'/> Delete
+            handleClick={() => deleteQuestion(question)}>
+            <FiTrash className='w-5 h-5 mr-2' /> Delete
           </CustomButton>
         </div>
       </div>
@@ -99,8 +99,8 @@ export default function QuestionEditor({index = 0, question, deleteQuestion, que
             Question
           </label>
           <input type="text" id='question' name='question' value={model.question}
-                 onChange={(event) => setModel({...model, question: event.target.value})}
-                 className='block input border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm w-full'/>
+            onChange={(event) => setModel({ ...model, question: event.target.value })}
+            className='block input border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm w-full' />
         </div>
         {/* // Question Text */}
 
@@ -111,8 +111,8 @@ export default function QuestionEditor({index = 0, question, deleteQuestion, que
             Question type
           </label>
           <select name="question_type" id="question_type" value={model.type}
-                  onChange={onTypeChange}
-                  className='select border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm'>
+            onChange={onTypeChange}
+            className='select border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm'>
             {questionTypes.map((type) => (<option value={type} key={type}>{upperCaseFirst(type)}</option>))}
           </select>
         </div>
@@ -126,8 +126,8 @@ export default function QuestionEditor({index = 0, question, deleteQuestion, que
           Description
         </label>
         <textarea name="description" id="description" value={model.description || ''}
-                  onChange={(event) => setModel({...model, description: event.target.value})}
-                  className='block input border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm w-full h-16'></textarea>
+          onChange={(event) => setModel({ ...model, description: event.target.value })}
+          className='block input border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm w-full h-16'></textarea>
       </div>
       {/* // Question Description */}
 
@@ -136,7 +136,7 @@ export default function QuestionEditor({index = 0, question, deleteQuestion, que
         <div className='flex flex-row justify-between items-center'>
           <h4 className='text text-gray-700'>Options</h4>
           <CustomButton handleClick={addOption} color='gray'>
-            <FiPlusCircle className="w-5 h-5"/> New Option
+            <FiPlusCircle className="w-5 h-5" /> New Option
           </CustomButton>
         </div>
         {(!model.data.options || model.data.options.length === 0) && (<div className='text-gray-800 text-center my-4'>
@@ -149,17 +149,38 @@ export default function QuestionEditor({index = 0, question, deleteQuestion, que
               <label htmlFor={`option-${index}`} className='block text-sm font-medium text-gray-700'>
                 {index + 1}.
               </label>
-              <input type="text" id={`option-${index}`} name='option' value={option.text || ' '}
-                     onKeyUp={(event) => handleKeyboardPressOnInput(event, index)}
-                     placeholder='Option value' onChange={event => onOptionChange(event, option.uuid)}
-                     className='input block border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm w-full'/>
+              <input type="text" id={`option-${index}`} name='option' value={option.text || ''}
+                onKeyUp={(event) => handleKeyboardPressOnInput(event, index)}
+                placeholder='Option value' onChange={event => onOptionChange(event, option.uuid)}
+                className='input block border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm w-full' />
+              <input
+                type="text"
+                id={`option-u-${index}`}
+                name="option-u"
+                value={option.uScore ?? ''}
+                onKeyUp={(event) => handleKeyboardPressOnInput(event, index)}
+                placeholder="Uniqueness Score"
+                onChange={(event) => onOptionChange(event, option.uuid)}
+                className="input block border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm w-full"
+              />
+
+              <input
+                type="text"
+                id={`option-b-${index}`}
+                name="option-b"
+                value={option.uScore ?? ''}
+                onKeyUp={(event) => handleKeyboardPressOnInput(event, index)}
+                placeholder="Belonging Score"
+                onChange={(event) => onOptionChange(event, option.uuid)}
+                className="input block border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm w-full"
+              />
 
               <CustomButton link circle color={'blue'} handleClick={() => addOption(index + 1)}>
-                <BiPlus className='w-5 h-5'/>
+                <BiPlus className='w-5 h-5' />
               </CustomButton>
 
               <CustomButton link circle color={'red'} handleClick={() => deleteOption(option.uuid)}>
-                <FiTrash className='w-5 h-5'/>
+                <FiTrash className='w-5 h-5' />
               </CustomButton>
             </div>
           </div>))}
